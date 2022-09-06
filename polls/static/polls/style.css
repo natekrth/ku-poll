@@ -1,0 +1,46 @@
+body {
+    background: white url("images/background.png") no-repeat;
+}
+
+li a {
+    color: #1C6758;
+    font-size:30px;
+    padding: 10px;
+}
+
+#title {
+    color: #0f460d;
+    padding-top: 40px;
+    font-size: 60px;
+}
+
+#question {
+    color: #0f460d;
+    padding: 30px;
+    font-size: 20px;
+}
+
+#button {
+    background-color: #EEF2E6;
+    color: #0f460d;
+    font-weight: bold;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#choice {
+    font-size: 25px;
+    color: #3D8361;
+    padding-left: 75px;
+}
+
+#result {
+    color: #0f460d;
+    padding-top: 40px;
+    padding-left: 40px;
+    font-size: 60px;
+}
