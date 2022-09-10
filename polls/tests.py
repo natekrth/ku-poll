@@ -37,6 +37,15 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_published_date_is_in_future(self):
+        time = timezone.now() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+        question = Question(pub_date=time)
+        self.assertGreater(question.pub_date, timezone.now())
+    
+    # def test_voting_allow_in_pub_date_and_end_date(self):
+    #     time = timezone.now() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+    #     question = Question(pub_date=time)
+    #     self.assertIs(question.can_vote, True)
 
 def create_question(question_text, days):
     """
