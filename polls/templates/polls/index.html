@@ -6,9 +6,18 @@
     <ul>
     <h1 id="title">KU-Polls</h1>
     {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% if question.can_vote %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            <button><a href="{% url 'polls:results' question.id %}"> Result </a></button>
+            <button><a href="{% url 'polls:detail' question.id %}"> Vote </a></button>
+        {% else %}
+            <p>{{ question.question_text }}</p>
+            <button><a href="{% url 'polls:results' question.id %}"> Result </a></button>
+            <button><a href="{% url 'polls:detail' question.id %}"> Vote </a></button>
+        {% endif %}
     {% endfor %}
     </ul>
 {% else %}
+
     <p>No polls are available.</p>
 {% endif %}
