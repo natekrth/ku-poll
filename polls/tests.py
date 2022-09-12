@@ -40,33 +40,33 @@ class QuestionModelTests(TestCase):
 
     def test_published_date_is_in_future(self):
         """can_vote() return False for question whose pub_date is in the future."""
-        time = timezone.localtime().now() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+        time = timezone.localtime() + datetime.timedelta(hours=23, minutes=59, seconds=59)
         question = Question(pub_date=time)
         self.assertIs(question.can_vote(), False)
     
     def test_voting_allow_at_pub_date(self):
         """can_vote() return True for voting that vote at exact same time when question is published."""
-        time = timezone.localtime().now()
+        time = timezone.localtime()
         question = Question(pub_date=time)
         self.assertIs(question.can_vote(), True)
     
     def test_voting_on_time(self):
         """can_vote() return True for voting after pub_date and before end_date."""
-        time = timezone.localtime().now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
-        time_end = timezone.localtime().now() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+        time = timezone.localtime() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        time_end = timezone.localtime() + datetime.timedelta(hours=23, minutes=59, seconds=59)
         question = Question(pub_date=time, end_date=time_end)
         self.assertIs(question.can_vote(), True) 
         
     def test_voting_after_end_date(self):
         """can_vote() return False for voting after question end_date."""
-        time = timezone.localtime().now() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        time = timezone.localtime() - datetime.timedelta(hours=23, minutes=59, seconds=59)
         # time_more = timezone.localtime().now() - datetime.timedelta(hours=20, minutes=59, seconds=59)
-        question = Question(pub_date=timezone.localtime().now(), end_date=time)
+        question = Question(pub_date=timezone.localtime(), end_date=time)
         self.assertIs(question.can_vote(), False)
         
     def test_poll_with_no_end_date(self):
         """can_vote() return True for question that does not have end_date"""
-        time = timezone.localtime().now()
+        time = timezone.localtime()
         question = Question(pub_date=time)
         self.assertIsNone(question.end_date)
         self.assertIs(question.can_vote(), True)
