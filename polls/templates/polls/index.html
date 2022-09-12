@@ -13,7 +13,7 @@
         {% else %}
             <p>{{ question.question_text }}</p>
             <button><a href="{% url 'polls:results' question.id %}"> Result </a></button>
-            <button><a href="{% url 'polls:detail' question.id %}"> Vote </a></button>
+            <button>Vote</button>
         {% endif %}
     {% endfor %}
     </ul>
