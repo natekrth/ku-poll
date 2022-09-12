@@ -1,8 +1,10 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+import re
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Choice, Question
 
@@ -29,7 +31,18 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
     
-    
+    def get(self, request, pk):
+        try:
+            self.question = Question.objects.get(pk=pk)
+            if self.question.can_vote():
+                return render(request, 'polls/detail.html', {'question': self.question})
+            else:
+                messages.error(request, "Voting is not allowed at this time.")
+                return HttpResponseRedirect(reverse('polls:index'))
+        except Question.DoesNotExist:
+            messages.error(request, "Question does not exist.")
+            return HttpResponseRedirect(reverse('polls:index'))
+        
 class ResultsView(generic.DeleteView):
     model = Question
     template_name = 'polls/results.html'
@@ -48,4 +61,3 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-    
