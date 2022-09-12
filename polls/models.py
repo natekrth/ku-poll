@@ -16,18 +16,18 @@ class Question(models.Model):
     
     def is_published(self):
         """Check that Question is published at this time."""
-        now = timezone.localtime().now()
+        now = timezone.localtime()
         return now >= self.pub_date
     
     def can_vote(self):
         """Check that Question can be vote."""
-        now = timezone.localtime().now()
+        now = timezone.localtime()
         if self.end_date is None and self.pub_date <= now:
             return True
         return self.pub_date <= now <= self.end_date
         
     def __str__(self):
-        """Representative of Question object."""
+        """Representative of Question ob"""
         return self.question_text
 
 
