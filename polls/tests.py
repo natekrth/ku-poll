@@ -1,5 +1,4 @@
 import datetime
-from this import d
 from urllib import response
 
 from django.test import TestCase
