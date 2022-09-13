@@ -1,4 +1,5 @@
 import datetime
+from this import d
 from urllib import response
 
 from django.test import TestCase
@@ -37,6 +38,38 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+    def test_published_date_is_in_future(self):
+        """can_vote() return False for question whose pub_date is in the future."""
+        time = timezone.localtime() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+        question = Question(pub_date=time)
+        self.assertIs(question.can_vote(), False)
+    
+    def test_voting_allow_at_pub_date(self):
+        """can_vote() return True for voting that vote at exact same time when question is published."""
+        time = timezone.localtime()
+        question = Question(pub_date=time)
+        self.assertIs(question.can_vote(), True)
+    
+    def test_voting_on_time(self):
+        """can_vote() return True for voting after pub_date and before end_date."""
+        time = timezone.localtime() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        time_end = timezone.localtime() + datetime.timedelta(hours=23, minutes=59, seconds=59)
+        question = Question(pub_date=time, end_date=time_end)
+        self.assertIs(question.can_vote(), True) 
+        
+    def test_voting_after_end_date(self):
+        """can_vote() return False for voting after question end_date."""
+        time = timezone.localtime() - datetime.timedelta(hours=23, minutes=59, seconds=59)
+        # time_more = timezone.localtime().now() - datetime.timedelta(hours=20, minutes=59, seconds=59)
+        question = Question(pub_date=timezone.localtime(), end_date=time)
+        self.assertIs(question.can_vote(), False)
+        
+    def test_poll_with_no_end_date(self):
+        """can_vote() return True for question that does not have end_date"""
+        time = timezone.localtime()
+        question = Question(pub_date=time)
+        self.assertIsNone(question.end_date)
+        self.assertIs(question.can_vote(), True)
 
 def create_question(question_text, days):
     """
@@ -110,12 +143,12 @@ class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         """
         The detail view of a question with a pub_date in the future
-        returns a 404 not found.
+        returns a 302 (Redirect).
         """
         future_question = create_question(question_text='Future question.', days=5)
         url = reverse('polls:detail', args=(future_question.id,))
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 302)
 
     def test_past_question(self):
         """

@@ -2,15 +2,15 @@ body {
     background: white url("images/background.png") no-repeat;
 }
 
-li a {
+#link {
     color: #1C6758;
-    font-size:30px;
+    font-size:40px;
     padding: 10px;
 }
 
 #title {
     color: #0f460d;
-    padding-top: 40px;
+    padding-top: 30px;
     font-size: 60px;
 }
 
@@ -32,10 +32,39 @@ li a {
     padding-left: 20px;
 }
 
-#choice {
+.index-button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#interact-button {
+    background-color: #e0ffcc;
+    color: #0f460d;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#interact-button:hover {
+    background-color: #a0e970;
+}
+
+#button-text {
+    color: #0f460d;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.choice {
     font-size: 25px;
     color: #3D8361;
     padding-left: 75px;
+}
+
+#back-button {
+    padding: 10px;
+    margin-left: 50px;
 }
 
 #result {
@@ -44,3 +73,4 @@ li a {
     padding-left: 40px;
     font-size: 60px;
 }
+

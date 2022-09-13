@@ -4,10 +4,10 @@
 
 <h1 id='result'>{{ question.question_text }}</h1>
 
-<ul id='choice'>
+<ul class='choice'>
 {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    <p>{{ choice.choice_text }} -- {{ choice.votes }}</p>
 {% endfor %}
 </ul>
 
-<a href="{% url 'polls:detail' question.id %}" id='choice'>Vote again?</a>
+<button id="back-button"><a id="button-text" href="{% url 'polls:index' %}">Back to List of Polls</a></button>
