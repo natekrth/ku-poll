@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Choice, Question
 
@@ -23,7 +25,7 @@ class IndexView(generic.ListView):
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
     
     
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     """View for detail.html page."""
     
     model = Question
@@ -65,7 +67,7 @@ class ResultsView(generic.DeleteView):
     model = Question
     template_name = 'polls/results.html'
 
-
+@login_required
 def vote(request, question_id):
     """Handle a vote request from vote button at detail page.
 
@@ -76,7 +78,9 @@ def vote(request, question_id):
     Returns:
         httpresponse: response for the request
     """
-    
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login')
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
