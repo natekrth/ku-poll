@@ -9,7 +9,11 @@ This application is part of the [Individual Software Process](https://cpske.gith
 
 ## How to Install and Run
 
-To be added.
+### Demo User
+| Username  | Password  |
+|-----------|-----------|
+|   tester   | nohack1234 |
+|   demo2   | demopass2 |
 
 ## Project Documents
 
