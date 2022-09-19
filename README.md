@@ -24,7 +24,7 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
     python manage.py runserver 
     ```
-    of
+    or
     ```
     python3 manage.py runserver
     ```
