@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Choice, Question
+from .models import Choice, Question, Vote
 
 
 class IndexView(generic.ListView):
@@ -62,6 +62,12 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
             messages.error(request, "Question does not exist.")
             return HttpResponseRedirect(reverse('polls:index'))
         
+    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    #     user_vote = Vote.objects.get(user=request.user, choice__in=self.
+    #     context['user_vote'] = 
+    #     return super().get_context_data(**kwargs)
+    
+        
 class ResultsView(generic.DeleteView):
     """View for results.html page."""
     model = Question
@@ -90,6 +96,14 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        # change vote and save it
+        try:
+            user_vote = Vote.objects.get(user=request.user, choice__question=question)
+            if user_vote:
+                user_vote.choice = selected_choice
+                user_vote.save()
+        # new vote and save it
+        except Vote.DoesNotExist:
+            new_vote = Vote.objects.create(user=request.user, choice=selected_choice)
+            new_vote.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
