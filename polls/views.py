@@ -54,19 +54,17 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         try:
             self.question = Question.objects.get(pk=pk)
             if self.question.can_vote():
-                return render(request, 'polls/detail.html', {'question': self.question})
+                try:
+                    self.voted = Vote.objects.get(user=request.user, choice__question=self.question).choice.choice_text
+                except Vote.DoesNotExist:
+                    pass
+                return render(request, 'polls/detail.html', {'question': self.question, 'voted': self.voted})
             else:
                 messages.error(request, "Voting is not allowed at this time.")
                 return HttpResponseRedirect(reverse('polls:index'))
         except Question.DoesNotExist:
             messages.error(request, "Question does not exist.")
             return HttpResponseRedirect(reverse('polls:index'))
-        
-    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-    #     user_vote = Vote.objects.get(user=request.user, choice__in=self.
-    #     context['user_vote'] = 
-    #     return super().get_context_data(**kwargs)
-    
         
 class ResultsView(generic.DeleteView):
     """View for results.html page."""
