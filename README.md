@@ -8,12 +8,20 @@ with additional functionality.
 This application is part of the [Individual Software Process](https://cpske.github.io/ISP) course at [Kasetsart University](https://ku.ac.th).
 
 ## How to Install and Run
+1. Clone this project repository.
+    ```git clone https://github.com/natekrth/ku-polls.git```
+2. Go in to ku-polls directory
+   ```cd ku-polls```
+3. Install required packages.
+   ```pip install -r requirements.txt```
+4. Running the web server.
+    ```python manage.py runserver``` or ```python3 manage.py runserver```
 
 ### Demo User
 | Username  | Password  |
 |-----------|-----------|
 |   tester   | nohack1234 |
-|   demo2   | demopass2 |
+|   hacker   | hackme22 |
 
 ## Project Documents
 
