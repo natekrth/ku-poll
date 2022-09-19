@@ -4,8 +4,8 @@ from urllib import response
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
-
-from polls.models import Question
+from django.contrib.auth.models import User
+from polls.models import Question, Choice, Vote
 
 
 class QuestionModelTests(TestCase):
@@ -139,11 +139,20 @@ class QuestionIndexViewTests(TestCase):
         
         
 class QuestionDetailViewTests(TestCase):
+    
+    def setUp(self):
+        self.username = "test"
+        self.password = "1234"
+        self.voter = User.objects.create_user(username=self.username, password=self.password)
+        self.voter.first_name = "Test"
+        self.voter.save()
+        
     def test_future_question(self):
         """
         The detail view of a question with a pub_date in the future
         returns a 302 (Redirect).
         """
+        self.client.login(username=self.username, password=self.password)
         future_question = create_question(question_text='Future question.', days=5)
         url = reverse('polls:detail', args=(future_question.id,))
         response = self.client.get(url)
@@ -154,7 +163,33 @@ class QuestionDetailViewTests(TestCase):
         The detail view of a question with a pub_date in the past
         displays the question's text.
         """
+        self.client.login(username=self.username, password=self.password)
         past_question = create_question(question_text='Past Question.', days=-5)
+        self.question = Question.objects.get(pk=past_question.pk)
+        vote = Vote.objects.get(user=self.voter, choice__question=self.question)
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
-        self.assertContains(response, past_question.question_text)
+        self.assertContains(response, {past_question.question_text, vote.choice.choice_text})
+
+
+class QuestionVoteTest(TestCase):
+    
+    def setUp(self):
+        self.username = "test"
+        self.password = "1234"
+        self.voter = User.objects.create_user(username=self.username, password=self.password)
+        self.voter.first_name = "Test"
+        self.voter.save()
+        self.question = Question.objects.create(question_text="Test Question?", pub_date=timezone.now())
+        
+    def test_user_login_required_to_vote(self):
+        self.client.login(username=self.username, password=self.password)
+        url = reverse('polls:vote', args=(self.question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        
+    def test_user_not_login_vote(self):
+        url = reverse('polls:vote', args=(self.question.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+

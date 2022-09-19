@@ -5,8 +5,10 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Choice, Question
+from .models import Choice, Question, Vote
 
 
 class IndexView(generic.ListView):
@@ -23,7 +25,7 @@ class IndexView(generic.ListView):
         return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
     
     
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     """View for detail.html page."""
     
     model = Question
@@ -52,7 +54,11 @@ class DetailView(generic.DetailView):
         try:
             self.question = Question.objects.get(pk=pk)
             if self.question.can_vote():
-                return render(request, 'polls/detail.html', {'question': self.question})
+                try:
+                    self.voted = Vote.objects.get(user=request.user, choice__question=self.question).choice.choice_text
+                except Vote.DoesNotExist:
+                    pass
+                return render(request, 'polls/detail.html', {'question': self.question, 'voted': self.voted})
             else:
                 messages.error(request, "Voting is not allowed at this time.")
                 return HttpResponseRedirect(reverse('polls:index'))
@@ -65,7 +71,7 @@ class ResultsView(generic.DeleteView):
     model = Question
     template_name = 'polls/results.html'
 
-
+@login_required
 def vote(request, question_id):
     """Handle a vote request from vote button at detail page.
 
@@ -76,7 +82,9 @@ def vote(request, question_id):
     Returns:
         httpresponse: response for the request
     """
-    
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login')
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
@@ -86,6 +94,14 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+        # change vote and save it
+        try:
+            user_vote = Vote.objects.get(user=request.user, choice__question=question)
+            if user_vote:
+                user_vote.choice = selected_choice
+                user_vote.save()
+        # new vote and save it
+        except Vote.DoesNotExist:
+            new_vote = Vote.objects.create(user=request.user, choice=selected_choice)
+            new_vote.save()
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
