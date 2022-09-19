@@ -9,13 +9,25 @@ This application is part of the [Individual Software Process](https://cpske.gith
 
 ## How to Install and Run
 1. Clone this project repository.
-    ```git clone https://github.com/natekrth/ku-polls.git```
+    ```
+    git clone https://github.com/natekrth/ku-polls.git
+    ```
 2. Go in to ku-polls directory
-   ```cd ku-polls```
+   ```
+   cd ku-polls
+   ```
 3. Install required packages.
-   ```pip install -r requirements.txt```
+   ```
+   pip install -r requirements.txt
+   ```
 4. Running the web server.
-    ```python manage.py runserver``` or ```python3 manage.py runserver```
+    ```
+    python manage.py runserver 
+    ```
+    of
+    ```
+    python3 manage.py runserver
+    ```
 
 ### Demo User
 | Username  | Password  |
