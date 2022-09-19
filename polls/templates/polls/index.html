@@ -5,8 +5,12 @@
 {% if latest_question_list %}
     <ul>
     <h1 id="title">KU-Polls</h1>
-    <button id="interact-button"><a id="button-text" href="/accounts/login"> Login </a></button>
-    <button id="interact-button"><a id="button-text" href="/accounts/logout"> Logout </a></button>
+    <h2> Welcome! {{request.user.first_name}} {{request.user.last_name}}</h2>
+    <div style="display: flex; gap: 20px">
+        <h2 style="color: #0f460d; font-size: 25px"> Username: {{ request.user.username }} </h2>
+        <button id="interact-button"><a id="button-text" href="/accounts/login"> Login </a></button>
+        <button id="interact-button"><a id="button-text" href="/accounts/logout"> Logout </a></button>
+    </div>
     {% for question in latest_question_list %}
         {% if question.can_vote %}
             <p><a id="link" href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>

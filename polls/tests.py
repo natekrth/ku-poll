@@ -165,11 +165,9 @@ class QuestionDetailViewTests(TestCase):
         """
         self.client.login(username=self.username, password=self.password)
         past_question = create_question(question_text='Past Question.', days=-5)
-        self.question = Question.objects.get(pk=past_question.pk)
-        vote = Vote.objects.get(user=self.voter, choice__question=self.question)
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
-        self.assertContains(response, {past_question.question_text, vote.choice.choice_text})
+        self.assertContains(response, past_question.question_text)
 
 
 class QuestionVoteTest(TestCase):

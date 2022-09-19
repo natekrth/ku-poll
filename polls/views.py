@@ -57,7 +57,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
                 try:
                     self.voted = Vote.objects.get(user=request.user, choice__question=self.question).choice.choice_text
                 except Vote.DoesNotExist:
-                    pass
+                    self.voted = ""
                 return render(request, 'polls/detail.html', {'question': self.question, 'voted': self.voted})
             else:
                 messages.error(request, "Voting is not allowed at this time.")
