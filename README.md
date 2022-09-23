@@ -21,6 +21,7 @@ This application is part of the [Individual Software Process](https://cpske.gith
     python3 -m venv env
     ```
 4. Start the virtual environment.  
+
     on macos and linux
     ```
     source env/bin/activate 
@@ -49,6 +50,7 @@ This application is part of the [Individual Software Process](https://cpske.gith
     python3 manage.py migrate
     ```
 9. Import and Export the database.  
+
     9.1 Import the database.  
     ```
     python3 manage.py loaddata
