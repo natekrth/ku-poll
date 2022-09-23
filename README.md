@@ -47,19 +47,12 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
 8. Import and Export the database.  
 
-    8.1 Import the database (Do This!).  
-    ```
-    python3 manage.py loaddata
-    ```
-    You can try
+    8.1 Import the database `python3 manage.py loaddata`.  
     ```
     python3 manage.py loaddata data/polls.json data/users.json
     ```
     
-    8.2 Export the database (Optional). 
-    ```
-    python3 manage.py dumpdata
-    ```
+    8.2 Export the database `python3 manage.py dumpdata` (Optional). 
     Try dump all polls data to a file (`-o`) named polls.json
     ```
     python3 manage.py dumpdata --indent=2 -o polls.json polls
