@@ -43,8 +43,8 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
     python3 manage.py migrate
     ```
-9. Import and Export the database.
-    9.1 Import the database.
+9. Import and Export the database.  
+    9.1 Import the database.  
     ```
     python3 manage.py loaddata
     ```
@@ -52,7 +52,8 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
     python3 manage.py loaddata data/polls.json data/users.json
     ```
-    9.2 Export the database.
+    
+    9.2 Export the database. 
     ```
     python3 manage.py dumpdata
     ```
