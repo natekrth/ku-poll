@@ -21,8 +21,13 @@ This application is part of the [Individual Software Process](https://cpske.gith
     python3 -m venv env
     ```
 4. Start the virtual environment.
+    on macos and linux
     ```
-    . env/bin/activate 
+    source env/bin/activate 
+    ```
+    on windows
+    ```
+    . env/bin/activate
     ```
 5. Install required packages.
     ```
