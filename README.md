@@ -34,24 +34,20 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
     pip install -r requirements.txt
     ```
-6. Running the web server.
-    ```
-    python3 manage.py runserver
-    ```
-7. Create `.env` and write.
+6. Create `.env` and write.
     ```
     SECRET_KEY = secret-key-value-without-quotes 
     DEBUG = False
     TIME_ZONE = Asia/Bangkok
     ALLOWED_HOSTS = localhost,127.0.0.1
     ```
-8. Create a new database by running migrations the database.
+7. Create a new database by running migrations the database.
     ```
     python3 manage.py migrate
     ```
-9. Import and Export the database.  
+8. Import and Export the database.  
 
-    9.1 Import the database.  
+    8.1 Import the database (Do This!).  
     ```
     python3 manage.py loaddata
     ```
@@ -60,7 +56,7 @@ This application is part of the [Individual Software Process](https://cpske.gith
     python3 manage.py loaddata data/polls.json data/users.json
     ```
     
-    9.2 Export the database. 
+    8.2 Export the database (Optional). 
     ```
     python3 manage.py dumpdata
     ```
@@ -68,7 +64,7 @@ This application is part of the [Individual Software Process](https://cpske.gith
     ```
     python3 manage.py dumpdata --indent=2 -o polls.json polls
     ```
-10. Start running server.
+9. Start running server.
     ```
     python3 manage.py runserver
     ```
