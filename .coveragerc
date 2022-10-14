@@ -6,3 +6,5 @@ omit =
     */__init__.py
     test_*.py
     polls/migrations/*
+    mysite/*
+    manage.py
