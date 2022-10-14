@@ -1,7 +1,7 @@
 # KU-Poll
 
 ![Unittest](https://github.com/natekrth/ku-polls/actions/workflows/test-python-app.yml/badge.svg)
-[![codecov](https://codecov.io/gh/natekrth/ku-polls/branch/actions1/graph/badge.svg?token=8CAQ5IG4DL)](https://codecov.io/gh/natekrth/ku-polls)
+[![codecov](https://codecov.io/gh/natekrth/ku-polls/branch/main/graph/badge.svg?token=8CAQ5IG4DL)](https://codecov.io/gh/natekrth/ku-polls)
 
 ## Online Polls for Kasetsart University
 
